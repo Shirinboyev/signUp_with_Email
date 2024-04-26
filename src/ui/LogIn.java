@@ -3,7 +3,6 @@ package ui;
 import backend.MailingServiceImp;
 import backend.User;
 import backend.UserService;
-import jdk.jshell.execution.Util;
 
 import javax.mail.MessagingException;
 import java.util.Random;
@@ -12,9 +11,13 @@ public class LogIn {
     private static UserService userService = new UserService();
 
     static void signUp() throws MessagingException {
-        String username = Utils.enterStr("enter username");
+        String username = Utils.enterStr("enter username: ");
         int age = Utils.enterInt("enter age: ");
-        String email = Utils.enterStr("enter email");
+        if(age < 18){
+            System.out.println("Yoshingiz tog'ri kelmayabdi " + (18 - age) + " yildan keyin urunib ko'ring");
+        }
+        else {
+        String email = Utils.enterStr("enter email: ");
 
 
         String verificationCode = generateRandomCode();
@@ -29,7 +32,7 @@ public class LogIn {
             System.out.println("SignUp successfully! 🥳🥳🥳");
         } else {
             System.out.println("SignUp failed! ❌❌❌");
-        }
+        }}
     }
 
     static void logIn() throws MessagingException {
@@ -47,7 +50,7 @@ public class LogIn {
     }
 
     private static void myAccount() throws MessagingException {
-        String email = Utils.enterStr("Enter your email: ");
+        String email = Utils.enterStr("Enter email for send message: ");
         String text = Utils.enterStr("Enter your message: ");
 
         MailingServiceImp.sendCode(email, text);
@@ -66,8 +69,8 @@ public class LogIn {
         for (User user : userService.getUsers()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 return true;
-            }
-        }
+              }
+           }
         return false;
     }
 }
